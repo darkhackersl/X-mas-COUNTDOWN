@@ -36,64 +36,37 @@
             }
         }
 
-        @keyframes move {
-            0% {
-                transform: translateX(-10px);
-            }
-            100% {
-                transform: translateX(10px);
-            }
-        }
-
-        h1 {
-            font-size: 3em;
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-top: 10%;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-            animation: fadeIn 2s ease-in-out;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
-        #countdown {
-            font-size: 2em;
-            margin-top: 20px;
+        .countdown-item {
             background: rgba(0, 0, 0, 0.5);
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 10px;
-            animation: pulse 1s infinite alternate;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            min-width: 100px;
         }
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+        .countdown-item h2 {
+            font-size: 3em;
+            margin: 0;
+            color: #e63946;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.05);
-            }
-        }
-
-        .button {
-            margin-top: 30px;
-            padding: 10px 20px;
-            font-size: 1.2em;
+        .countdown-item span {
+            display: block;
+            font-size: 1em;
+            margin-top: 10px;
             color: #fff;
-            background: #e63946;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease-in-out;
-        }
-
-        .button:hover {
-            background: #d62839;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
         }
 
         .footer {
@@ -103,88 +76,39 @@
             font-size: 0.8em;
             color: rgba(255, 255, 255, 0.7);
         }
-
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .cursor-effect {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        #music-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 1.5em;
-            z-index: 10000;
-        }
-
-        #music-overlay button {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #music-overlay button:hover {
-            background: #45a049;
-        }
     </style>
 </head>
 <body>
-    <audio id="background-music" loop>
+    <audio id="background-music" autoplay loop>
         <source src="Bobby Helms - Jingle Bell Rock (Lyrics).mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-    <div id="music-overlay">
-        <button onclick="startMusic()">Play Christmas Music 🎶</button>
-    </div>
-
-    <canvas class="background-animation" id="background"></canvas>
     <div id="app">
         <h1>🎄 Christmas Countdown 🎄</h1>
-        <div id="countdown">00 Days 00:00:00</div>
-        <button class="button" onclick="refreshCountdown()">Refresh Countdown</button>
+        <div class="countdown-container">
+            <div class="countdown-item">
+                <h2 id="days">00</h2>
+                <span>Days</span>
+            </div>
+            <div class="countdown-item">
+                <h2 id="hours">00</h2>
+                <span>Hours</span>
+            </div>
+            <div class="countdown-item">
+                <h2 id="minutes">00</h2>
+                <span>Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <h2 id="seconds">00</h2>
+                <span>Seconds</span>
+            </div>
+        </div>
     </div>
     <div class="footer">Made with ❤️ by Thenux</div>
 
     <!-- Snowflakes -->
     <script>
-        const snowflakes = [];
         const emojiSnowflakes = ['❄️', '☃️', '🎄', '✨'];
 
         for (let i = 0; i < 100; i++) {
@@ -195,7 +119,6 @@
             snowflake.style.fontSize = Math.random() * 20 + 10 + 'px';
             snowflake.textContent = emojiSnowflakes[Math.floor(Math.random() * emojiSnowflakes.length)];
             document.body.appendChild(snowflake);
-            snowflakes.push(snowflake);
         }
 
         function updateCountdown() {
@@ -212,100 +135,16 @@
             const minutes = Math.floor((diff / (1000 * 60)) % 60);
             const seconds = Math.floor((diff / 1000) % 60);
 
-            document.getElementById('countdown').textContent = `${days} Days ${hours}:${minutes}:${seconds}`;
-        }
-
-        function refreshCountdown() {
-            updateCountdown();
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         }
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Cursor effect
-        const cursor = document.createElement('div');
-        cursor.classList.add('cursor-effect');
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.pageX + 'px';
-            cursor.style.top = e.pageY + 'px';
-        });
-
-        // Background animation
-        const canvas = document.getElementById('background');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = [];
-
-        function Particle(x, y) {
-            this.x = x;
-            this.y = y;
-            this.size = Math.random() * 5 + 1;
-            this.speedX = Math.random() * 3 - 1.5;
-            this.speedY = Math.random() * 3 - 1.5;
-        }
-
-        Particle.prototype.update = function () {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            if (this.size > 0.2) this.size -= 0.1;
-        };
-
-        Particle.prototype.draw = function () {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        };
-
-        function handleParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-
-                if (particles[i].size <= 0.2) {
-                    particles.splice(i, 1);
-                    i--;
-                }
-            }
-        }
-
-        function createParticles(e) {
-            for (let i = 0; i < 5; i++) {
-                particles.push(new Particle(e.x, e.y));
-            }
-        }
-
-        window.addEventListener('mousemove', createParticles);
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            handleParticles();
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // Music overlay
-        const audio = document.getElementById('background-music');
-
-        function startMusic() {
-            audio.play().then(() => {
-                document.getElementById('music-overlay').style.display = 'none';
-            }).catch(err => {
-                console.error("Audio play failed:", err);
-            });
-        }
     </script>
 </body>
 </html>
+
 
