@@ -8,7 +8,8 @@
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background: transparent;
+            background: url('https://i.imgur.com/j5Iv2GE.png') no-repeat center center fixed;
+            background-size: cover;
             color: #fff;
             text-align: center;
             overflow: hidden;
@@ -135,6 +136,11 @@
     </style>
 </head>
 <body>
+    <audio id="background-music" autoplay loop>
+        <source src="path/to/your/song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <canvas class="background-animation" id="background"></canvas>
     <div id="app">
         <h1>🎄 Christmas Countdown 🎄</h1>
@@ -258,3 +264,4 @@
     </script>
 </body>
 </html>
+
