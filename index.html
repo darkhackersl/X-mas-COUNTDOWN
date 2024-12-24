@@ -133,49 +133,46 @@
                 opacity: 0.5;
             }
         }
+
+        #music-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5em;
+            z-index: 10000;
+        }
+
+        #music-overlay button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #music-overlay button:hover {
+            background: #45a049;
+        }
     </style>
 </head>
 <body>
-    <div id="music-overlay" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 1.5em;
-    z-index: 10000;
-">
-    <button style="
-        padding: 10px 20px;
-        font-size: 1.2em;
-        background: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    " onclick="startMusic()">Play Christmas Music 🎶</button>
-</div>
-
-<script>
-    const audio = document.getElementById('background-music');
-
-    function startMusic() {
-        audio.play().then(() => {
-            document.getElementById('music-overlay').style.display = 'none';
-        }).catch(err => {
-            console.error("Audio play failed:", err);
-        });
-    }
-</script>
-    <audio id="background-music" autoplay loop>
-        <source src="path/to/your/song.mp3" type="audio/mpeg">
+    <audio id="background-music" loop>
+        <source src="Bobby Helms - Jingle Bell Rock (Lyrics).mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+    <div id="music-overlay">
+        <button onclick="startMusic()">Play Christmas Music 🎶</button>
+    </div>
 
     <canvas class="background-animation" id="background"></canvas>
     <div id="app">
@@ -297,8 +294,18 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+
+        // Music overlay
+        const audio = document.getElementById('background-music');
+
+        function startMusic() {
+            audio.play().then(() => {
+                document.getElementById('music-overlay').style.display = 'none';
+            }).catch(err => {
+                console.error("Audio play failed:", err);
+            });
+        }
     </script>
 </body>
 </html>
-
 
