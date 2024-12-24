@@ -118,12 +118,32 @@
                 transform: scale(1.5);
             }
         }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #e63946;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .controls button:hover {
+            background: #ff6f61;
+        }
     </style>
 </head>
 <body>
     <div class="custom-background"></div>
 
-    <audio id="background-music" autoplay loop>
+    <audio id="background-music" loop>
         <source src="Bobby Helms - Jingle Bell Rock (Lyrics).mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -148,8 +168,14 @@
                 <span>Seconds</span>
             </div>
         </div>
+
+        <div class="controls">
+            <button onclick="playMusic()">Play Music</button>
+            <button onclick="stopMusic()">Stop Music</button>
+            <button onclick="sendGreeting()">Send WhatsApp Greeting</button>
+        </div>
     </div>
-    <div class="footer">Made with ❤️ by Thenula Panapiti</div>
+    <div class="footer">Made with ❤️ by Thenux</div>
 
     <!-- Snowflakes -->
     <script>
@@ -197,7 +223,25 @@
             cursorEffect.style.left = `${e.clientX}px`;
             cursorEffect.style.top = `${e.clientY}px`;
         });
+
+        // Music controls
+        const music = document.getElementById('background-music');
+
+        function playMusic() {
+            music.play();
+        }
+
+        function stopMusic() {
+            music.pause();
+            music.currentTime = 0;
+        }
+
+        // WhatsApp greeting
+        function sendGreeting() {
+            const message = "Merry Christmas! 🎄 Wishing you joy, peace, and happiness this holiday season. Thenux-Xmas";
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
     </script>
 </body>
 </html>
-
