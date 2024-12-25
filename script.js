@@ -95,6 +95,14 @@ function triggerSparkles() {
         }, 2000);
     }
 }
+
+function applyCoolStyle() {
+    const countdownItems = document.querySelectorAll('.countdown-item');
+    countdownItems.forEach(item => {
+        item.classList.toggle('cool-style');
+        item.classList.toggle('cool-style-active');
+    });
+}
 function shareCountdown() {
     
     const countdownLink = window.location.href;
