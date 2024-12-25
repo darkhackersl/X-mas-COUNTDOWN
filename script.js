@@ -69,15 +69,46 @@ function triggerConfetti() {
         }, 3000);
     }
 }
+
+function triggerFireworks() {
+    for (let i = 0; i < 10; i++) {
+        const firework = document.createElement('div');
+        firework.classList.add('firework');
+        firework.style.left = Math.random() * 100 + 'vw';
+        firework.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(firework);
+        setTimeout(() => {
+            firework.remove();
+        }, 2000);
+    }
+}
+
+function triggerSparkles() {
+    for (let i = 0; i < 50; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = Math.random() * 100 + 'vw';
+        sparkle.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(sparkle);
+        setTimeout(() => {
+            sparkle.remove();
+        }, 2000);
+    }
+}
 function shareCountdown() {
+    
     const countdownLink = window.location.href;
     alert(`Share this countdown link: ${countdownLink}`);
 }
 
 function sendGreeting() {
     const name = prompt("Enter the name of the person you want to greet:");
+     const message = "🎉 Happy New Year! Wishing you a year full of success and happiness! 🎆";
     document.getElementById('greeting-name').textContent = name;
-    alert(`Greeting sent to ${name}!`);
+     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+{ alert(`Greeting sent to ${name}!`);
 }
 
 
