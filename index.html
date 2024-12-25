@@ -35,17 +35,20 @@
             </div>
         </div>
 
+    
         <div class="controls">
             <button onclick="playMusic()">Play Music</button>
             <button onclick="stopMusic()">Stop Music</button>
             <button onclick="sendGreeting()">Send WhatsApp Greeting</button>
             <button onclick="generateGreetingCard()">Generate Greeting Card</button>
             <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+            <button onclick="selectMusic()">Select Music</button>
+            <button onclick="shareCountdown()">Share Countdown</button>
         </div>
 
         <div id="greeting-card">
             <h2>🎆 Happy New Year, <span id="greeting-name"></span>! 🎆</h2>
-            <p>Wishing you all the best in the upcoming year!</p>
+            <p id="custom-message"></p>
             <p id="random-quote"></p>
         </div>
     </div>
