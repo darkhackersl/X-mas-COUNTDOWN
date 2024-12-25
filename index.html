@@ -12,6 +12,7 @@
             color: #fff;
             text-align: center;
             overflow: hidden;
+            transition: background 1s ease;
         }
 
         .custom-background {
@@ -139,44 +140,32 @@
             background: #ffd633;
         }
 
-        .greeting-card {
+        .fireworks {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            display: none;
-            flex-direction: column;
-            align-items: center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
-        .greeting-card input {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: none;
-            width: 80%;
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: explode 2s ease-out forwards;
         }
 
-        .greeting-card button {
-            background: #ffcc00;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .greeting-card button:hover {
-            background: #ffd633;
-        }
-
-        .greeting-card p {
-            margin-top: 20px;
-            color: #ffcc00;
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -213,18 +202,14 @@
             <button onclick="playMusic()">Play Music</button>
             <button onclick="stopMusic()">Stop Music</button>
             <button onclick="sendGreeting()">Send WhatsApp Greeting</button>
-            <button onclick="showGreetingCard()">Create Greeting Card</button>
+            <button onclick="generateGreetingCard()">Generate Greeting Card</button>
+        </div>
+
+        <div id="greeting-card" style="display: none; margin: 20px;">
+            <h2>🎆 Happy New Year, <span id="greeting-name"></span>! 🎆</h2>
+            <p>Wishing you all the best in the upcoming year!</p>
         </div>
     </div>
-
-    <div id="greeting-card" class="greeting-card">
-        <h2>Create Your Greeting Card</h2>
-        <input type="text" id="user-name" placeholder="Enter your name">
-        <button onclick="generateGreetingCard()">Generate</button>
-        <p id="greeting-message"></p>
-        <button onclick="hideGreetingCard()">Close</button>
-    </div>
-
     <div class="footer">Made with ❤️ by Thenux - Happy New Year!</div>
 
     <script>
@@ -255,6 +240,10 @@
             document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
             document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            if (diff <= 0) {
+                triggerCelebration();
+            }
         }
 
         setInterval(updateCountdown, 1000);
@@ -286,18 +275,29 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        function showGreetingCard() {
-            document.getElementById('greeting-card').style.display = 'flex';
-        }
-
-        function hideGreetingCard() {
-            document.getElementById('greeting-card').style.display = 'none';
-        }
-
         function generateGreetingCard() {
-            const userName = document.getElementById('user-name').value;
-            const greetingMessage = userName ? `🎉 Happy New Year, ${userName}! May your year be bright and successful! 🎆` : "Please enter your name!";
-            document.getElementById('greeting-message').textContent = greetingMessage;
+            const name = prompt("Enter your name:");
+            if (name) {
+                document.getElementById('greeting-name').textContent = name;
+                document.getElementById('greeting-card').style.display = 'block';
+            }
+        }
+
+        function triggerCelebration() {
+            const fireworksContainer = document.createElement('div');
+            fireworksContainer.classList.add('fireworks');
+            document.body.appendChild(fireworksContainer);
+
+            for (let i = 0; i < 30; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.top = `${Math.random() * 100}vh`;
+                firework.style.left = `${Math.random() * 100}vw`;
+                firework.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                fireworksContainer.appendChild(firework);
+            }
+
+            setTimeout(() => fireworksContainer.remove(), 3000);
         }
     </script>
 </body>
