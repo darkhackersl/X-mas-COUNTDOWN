@@ -180,3 +180,26 @@ body {
 .theme-transition {
     transition: background 0.5s ease, color 0.5s ease;
 }
+
+
+
+/* Existing styles remain unchanged */
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffcc00;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: fall 3s forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
