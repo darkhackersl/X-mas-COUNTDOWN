@@ -92,4 +92,12 @@ function toggleTheme() {
     const body = document.body;
     body.classList.toggle('light-theme');
     body.classList.toggle('dark-theme');
+
+    // Add transition class for smooth effect
+    body.classList.add('theme-transition');
+
+    // Remove transition class after animation duration
+    setTimeout(() => {
+        body.classList.remove('theme-transition');
+    }, 500);
 }
