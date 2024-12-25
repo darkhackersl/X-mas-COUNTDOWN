@@ -294,3 +294,112 @@ body {
         transform: scale(1);
     }
 }
+
+
+
+/* Existing styles remain unchanged */
+
+/* Button styles */
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #ffcc00;
+    color: black;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls button:hover {
+    background: #ffd633;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+}
+
+.controls button:active {
+    transform: scale(0.95);
+}
+
+/* Sparkles animation */
+.sparkle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: sparkleAnimation 2s infinite;
+}
+
+@keyframes sparkleAnimation {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(30px, -30px) scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Cool style animations */
+.cool-style {
+    transition: all 0.5s ease;
+    transform: scale(1.1);
+    background-color: #ffcc00;
+}
+
+.cool-style-active {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Theme toggle animation */
+.theme-toggle {
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: #ffd633;
+    transform: scale(1.1);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Greeting card animation */
+#greeting-card {
+    display: none;
+    margin: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#greeting-card.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
