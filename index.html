@@ -8,53 +8,44 @@
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom, #000428, #004e92);
             color: #fff;
             text-align: center;
             overflow: hidden;
-            transition: background 1s ease;
+            transition: background 0.5s, color 0.5s;
         }
 
-        .custom-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 0, 0.3), rgba(255, 69, 0, 0.2));
-            pointer-events: none;
-            animation: pulse 10s infinite alternate;
+        .light-theme {
+            background: linear-gradient(to bottom, #f0f0f0, #ffffff);
+            color: #000;
         }
 
-        @keyframes pulse {
+        .dark-theme {
+            background: linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: sparkleAnimation 2s infinite;
+        }
+
+        @keyframes sparkleAnimation {
             0% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1.2);
+                transform: translate(0, 0) scale(1);
                 opacity: 1;
             }
-        }
-
-        .falling-effect {
-            position: fixed;
-            top: -10px;
-            z-index: 1;
-            color: white;
-            opacity: 0.8;
-            font-size: 1em;
-            animation: fall 10s linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0);
-                opacity: 1;
+            50% {
+                transform: translate(30px, -30px) scale(1.5);
+                opacity: 0.5;
             }
             100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
             }
         }
 
@@ -74,6 +65,16 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             text-align: center;
             min-width: 100px;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 0, 1);
+            }
         }
 
         .countdown-item h2 {
@@ -100,26 +101,6 @@
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
         }
 
-        .cursor-effect {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            animation: cursor-scale 0.3s infinite alternate;
-        }
-
-        @keyframes cursor-scale {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.5);
-            }
-        }
-
         .controls {
             margin: 20px 0;
         }
@@ -133,11 +114,12 @@
             cursor: pointer;
             background: #ffcc00;
             color: black;
-            transition: background 0.3s;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
         .controls button:hover {
             background: #ffd633;
+            transform: scale(1.1);
         }
 
         .fireworks {
@@ -167,9 +149,37 @@
                 opacity: 0;
             }
         }
+
+        #greeting-card {
+            display: none;
+            margin: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #greeting-card h2 {
+            color: #ffcc00;
+        }
+
+        .theme-toggle {
+            margin: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #ffcc00;
+            color: black;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: #ffd633;
+        }
     </style>
 </head>
-<body>
+<body class="dark-theme">
     <div class="custom-background"></div>
 
     <audio id="background-music" loop>
@@ -203,26 +213,35 @@
             <button onclick="stopMusic()">Stop Music</button>
             <button onclick="sendGreeting()">Send WhatsApp Greeting</button>
             <button onclick="generateGreetingCard()">Generate Greeting Card</button>
+            <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
         </div>
 
-        <div id="greeting-card" style="display: none; margin: 20px;">
+        <div id="greeting-card">
             <h2>🎆 Happy New Year, <span id="greeting-name"></span>! 🎆</h2>
             <p>Wishing you all the best in the upcoming year!</p>
+            <p id="random-quote"></p>
         </div>
     </div>
     <div class="footer">Made with ❤️ by Thenux - Happy New Year!</div>
 
     <script>
+        const quotes = [
+            "Cheers to a new year and another chance for us to get it right.",
+            "May your New Year be filled with joy and happiness.",
+            "Wishing you a year full of blessings and success.",
+            "Here’s to a year of new adventures and opportunities.",
+            "May the coming year bring you peace, joy, and happiness."
+        ];
+
         const emojiEffects = ['🎆', '🎇', '✨', '🥂', '🎉'];
 
-        for (let i = 0; i < 100; i++) {
-            const effect = document.createElement('div');
-            effect.classList.add('falling-effect');
-            effect.style.left = Math.random() * 100 + 'vw';
-            effect.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            effect.style.fontSize = Math.random() * 20 + 10 + 'px';
-            effect.textContent = emojiEffects[Math.floor(Math.random() * emojiEffects.length)];
-            document.body.appendChild(effect);
+        for (let i = 0; i < 50; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            document.body.appendChild(sparkle);
         }
 
         function updateCountdown() {
@@ -236,7 +255,7 @@
             const minutes = Math.floor((diff / (1000 * 60)) % 60);
             const seconds = Math.floor((diff / 1000) % 60);
 
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('days').textContent = days .toString().padStart(2, '0');
             document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
             document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
@@ -248,15 +267,6 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        const cursorEffect = document.createElement('div');
-        cursorEffect.classList.add('cursor-effect');
-        document.body.appendChild(cursorEffect);
-
-        document.addEventListener('mousemove', (e) => {
-            cursorEffect.style.left = `${e.clientX}px`;
-            cursorEffect.style.top = `${e.clientY}px`;
-        });
 
         const music = document.getElementById('background-music');
 
@@ -279,6 +289,7 @@
             const name = prompt("Enter your name:");
             if (name) {
                 document.getElementById('greeting-name').textContent = name;
+                document.getElementById('random-quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
                 document.getElementById('greeting-card').style.display = 'block';
             }
         }
@@ -291,13 +302,23 @@
             for (let i = 0; i < 30; i++) {
                 const firework = document.createElement('div');
                 firework.classList.add('firework');
-                firework.style.top = `${Math.random() * 100}vh`;
-                firework.style.left = `${Math.random() * 100}vw`;
-                firework.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                firework.style.left = Math.random() * 100 + 'vw';
+                firework.style.bottom = Math.random() * 100 + 'vh';
+                firework.style.animationDuration = (Math.random() * 1 + 1) + 's';
                 fireworksContainer.appendChild(firework);
+                setTimeout(() => {
+                    firework.remove();
+                }, 2000);
             }
 
-            setTimeout(() => fireworksContainer.remove(), 3000);
+            // Play celebration music
+            playMusic();
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-theme');
+            body.classList.toggle('dark-theme');
         }
     </script>
 </body>
