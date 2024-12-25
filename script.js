@@ -57,6 +57,29 @@ function sendGreeting() {
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
+function triggerConfetti() {
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => {
+            confetti.remove();
+        }, 3000);
+    }
+}
+function shareCountdown() {
+    const countdownLink = window.location.href;
+    alert(`Share this countdown link: ${countdownLink}`);
+}
+
+function sendGreeting() {
+    const name = prompt("Enter the name of the person you want to greet:");
+    document.getElementById('greeting-name').textContent = name;
+    alert(`Greeting sent to ${name}!`);
+}
+
 
 function generateGreetingCard() {
     const name = prompt("Enter your name:");
