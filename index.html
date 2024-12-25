@@ -138,6 +138,46 @@
         .controls button:hover {
             background: #ffd633;
         }
+
+        .greeting-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .greeting-card input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 80%;
+        }
+
+        .greeting-card button {
+            background: #ffcc00;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .greeting-card button:hover {
+            background: #ffd633;
+        }
+
+        .greeting-card p {
+            margin-top: 20px;
+            color: #ffcc00;
+        }
     </style>
 </head>
 <body>
@@ -173,8 +213,18 @@
             <button onclick="playMusic()">Play Music</button>
             <button onclick="stopMusic()">Stop Music</button>
             <button onclick="sendGreeting()">Send WhatsApp Greeting</button>
+            <button onclick="showGreetingCard()">Create Greeting Card</button>
         </div>
     </div>
+
+    <div id="greeting-card" class="greeting-card">
+        <h2>Create Your Greeting Card</h2>
+        <input type="text" id="user-name" placeholder="Enter your name">
+        <button onclick="generateGreetingCard()">Generate</button>
+        <p id="greeting-message"></p>
+        <button onclick="hideGreetingCard()">Close</button>
+    </div>
+
     <div class="footer">Made with ❤️ by Thenux - Happy New Year!</div>
 
     <script>
@@ -234,6 +284,20 @@
             const message = "🎉 Happy New Year! Wishing you a year full of success and happiness! 🎆";
             const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+        }
+
+        function showGreetingCard() {
+            document.getElementById('greeting-card').style.display = 'flex';
+        }
+
+        function hideGreetingCard() {
+            document.getElementById('greeting-card').style.display = 'none';
+        }
+
+        function generateGreetingCard() {
+            const userName = document.getElementById('user-name').value;
+            const greetingMessage = userName ? `🎉 Happy New Year, ${userName}! May your year be bright and successful! 🎆` : "Please enter your name!";
+            document.getElementById('greeting-message').textContent = greetingMessage;
         }
     </script>
 </body>
